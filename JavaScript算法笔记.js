@@ -812,8 +812,30 @@ function makeFriendlyDates(arr) {
   
   makeFriendlyDates(["2016-05-11", "2017-04-04"]);
   
-  
+//获取当前时间的函数 
+//document.write("当前时间：" + y + "年" + mon + "月" + d + "日 " + w + " " + h + "时" + m + "分" + s + "秒");
+var time = document.getElementById("time");
+function showTime() {
+    //显示当前几年几月几日周几几点几分几秒
+    var date2 = new Date();
+    var y = date2.getFullYear();
+    //月:从0开始
+    var mon = date2.getMonth() + 1;
+    //日
+    var d = date2.getDate();
+    //周
+    var weeks = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期四", "星期五", "星期六"];
+    var w = weeks[date2.getDay()]; //当前月份中是周几
+    //时分秒
+    var h = date2.getHours();
+    var m = date2.getMinutes();
+    var s = date2.getSeconds();
+    var ms = date2.getMilliseconds();
+    time.innerHTML = "当前时间：" + y + "年" + mon + "月" + d + "日 " + w + " " + h + "时" + m + "分" + s + "秒" + ms + "毫秒";
+}
 
+showTime();
+setInterval(showTime,1);
  
 
   
