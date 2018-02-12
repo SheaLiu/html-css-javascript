@@ -1,0 +1,439 @@
+一、面向对象/面向过程
+		面向过程：以事件为中心，把对应事件分为若干步骤
+		面向对象：以事物对象为中心，完成每一个事件需要哪些对象来参与
+		
+		对象：特征（属性）和行为（方法）
+		
+		面向对象：封装、继承、多态。
+		封装：把过程和数据封装到一块，组成功能模块，使用该功能可以访问直接定义好的方法或者属性。
+		继承：通过类继承，对象的一个新的类可以继承现有的类。
+		多态:不同的对象去实现相同的方法，获取的结果不同。
+		
+		类：对对象的抽象。 类：人
+		对象：对类的实例化，具有属性和方法。  对象： 人->毛毛
+		
+		js: 是一个面向对象的语言，但是不是一个标准的面向对象语言，没有类的概念
+    
+    
+二、工厂模式
+		function createPerson(nameValue,ageValue){
+			var person = {
+				name:nameValue,
+				age:ageValue,
+				getName:function(){
+					return "我叫" + this.name;
+				},
+			}
+			return person;
+		}
+		
+		var person2 = createPerson("毛毛",18);
+		console.log(person2.name,person2.age);
+		console.log(person2.getName());
+		
+		var person3 = createPerson("石头",28);
+		console.log(person3.name,person3.age);
+        console.log(person3.getName());
+
+
+三、移动端事件
+    移动端也可以用点击事件，但是事件有200左右的延迟
+		移动端事件：touch事件
+		div1.onclick = function(){
+			alert(1111);
+		};
+	
+		 touchstart: 开始触摸 onmousedown
+		 touchmove: 移动 onmouesemove
+		 touchend: 结束 onmouseup
+		 
+		 mousecancle: 触摸取消
+		 
+		
+		不能绑定触摸事件
+		div1.ontouchstart = function(){
+			alert(111);
+		};
+		
+		
+		 事件对象下的属性
+		 touches:屏幕上有多少触摸点，就包含多少触摸对象
+		 targetTouches：事件源对象上的所有触摸点
+		 changedTouches：变化的触摸点，当前的触摸点
+		 
+		div1.addEventListener("touchstart",function(ev){
+			//alert(11111);
+			//console.log(ev);
+			div1.innerHTML += "touches" + ev.touches.length + "targetTouches" + ev.targetTouches.length + "<br>";
+		});
+		
+		div1.addEventListener("touchmove",function(ev){
+			div1.innerHTML += "touches" + ev.touches.length + "targetTouches" + ev.targetTouches.length + "<br>";
+			//阻止默认事件
+			ev.preventDefault();
+		});
+		//结束
+		div1.addEventListener("touchend",function(){
+			div1.innerHTML = "结束";
+		});
+		//程序运行中，电话，闹铃等触发把我们触摸事件终止（数据的保存，暂停游戏）
+		div1.addEventListener("touchcancel",function(){
+			div1.innerHTML = "被迫结束";
+        });
+        
+        //移动版拖拽
+        var div1=document.getElementById("div1");
+
+        div1.addEventListener("touchstart",function(ev){
+            var touchObj = ev.touches[0];
+            var offsetX = touchObj.clientX - this.offsetLeft;
+            var offsetY = touchObj.clientY - this.offsetTop;
+
+            document.addEventListener("touchmove",move);
+            function move(ev){
+                //获取touches对象下的第一个手指对象
+                var touchObj = ev.touches[0];
+                div1.style.left=touchObj.clientX - offsetX +"px";
+                div1.style.top=touchObj.clientY - offsetY + "px";
+            }
+            document.addEventListener("touchend",function(){
+                document.removeEventListener("touchmove",move);
+            });
+            ev.preventDefault();
+		});
+    
+    
+  四、正则方法
+  text()
+		 exec():用于检索字符串中的正则表达式，返回匹配结果
+		 
+		 如果匹配到：返回匹配结果（数组：包括：该字符串，位置，原字符串）
+		 index03正则方法.html:21 ["Love", index: 2, input: "I Love NUC"]
+		 如果匹配不到返回null
+		 * */
+		
+		var str = 'I Love NUC'
+		var reg = /Love/;
+		console.log(reg.exec(str));
+		
+		//特点：全局匹配下，每次找一个，多次查找，从上次位置继续往下查找
+		var str2 = 'add231bee734aee124';
+		//g:全局匹配
+		var reg2 = /\d/g;
+		document.body.innerHTML = reg2.exec(str2);
+		document.body.innerHTML += "<br>" + reg2.exec(str2);
+		document.body.innerHTML += "<br>" + reg2.exec(str2);
+		
+		/*
+		 match():
+		 字符串对象方法：
+		 参数：规则
+		 返回值：把匹配的内容存入数组，把数组返回给我们，如果匹配不到，返回null
+		 
+		 注意：一搬要借助 修饰符g（全局匹配）
+		 * */
+		var str3 = 'shitou is a good boy and shitou like playgame Shitou';		
+		var reg3 = /shitou/gi;//全局匹配shitou并且不区分大小写
+		var relArr = str3.match(reg3);
+		console.log(relArr);
+		document.body.innerHTML += '<br/>' + relArr;
+		
+		//找到所有数字
+		var str4 = 'affa1221cxccx2323cxc989czz22233';
+		var reg4 = /\d/g;
+		
+		// +:一个或者多个 *：0个或者多个
+		reg4 = /\d+/g;
+		document.body.innerHTML += '<br/>' + str4.match(reg4);
+		console.log(str4.match(reg4));
+		
+		/*
+		 字符串替换
+		 replace(参数1，参数2)
+		 参数1：正则表达式（或者需要被替换的字符串）
+		 参数2：新字符串 
+		 
+		 
+		 返回值：替换后的新字符串，原字符串不会被修改
+		 * */
+		
+		var str5 = '石头是一个有文化的好青年石头';
+		
+		var newS = str5.replace('石头','小鹏');
+		console.log(newS,str5);
+		
+		var reg5 = /石头/g;
+		var newStr = str5.replace(reg5,'小鹏');
+		console.log(newStr);
+		
+		var str6 = '石头是一个    en';
+		console.log(str6);
+		//删除空格
+		var reg6 = /\s/g;
+		var newStrS = str6.replace(reg6,'*');
+		console.log(newStrS);
+		
+		/*
+		 字符串查找
+		 search(参数)
+		 参数：正则表达式或者普通字符串
+		 
+		 结果和indexOf一样，匹配到返回该数字字符串下标，否则-1
+		 
+		 类似
+		 indexOf()：精确查找
+		 serch(): 模糊查找
+		 
+		 * */
+		var str7 = '石头和小鹏下课一起打游戏';
+		var index = str7.search('小鹏');
+		console.log(index);
+		
+		//模糊
+		var reg7 = /和..下课/;
+		console.log(str7.search(reg7));
+
+		/*
+		 lllo+号：查找o个数 >= 1
+		 *号：查找个数 >= 0
+		 ?号：个数{0，1} 只能取值0或者1
+		 
+		 * */
+		
+		var str = 'helloo woooooorld aoalo oob';
+		//找到所有连续的 o 
+		var reg = /o+/g;
+		document.body.innerHTML = '<br>' + str.match(reg);
+		// l后面是o o的个数不能为0
+		var reg2 = /lo+/g;
+		document.body.innerHTML += '<br/>' + str.match(reg2);
+		
+		var reg3 = /\w+/g;
+		document.body.innerHTML += '<br>' + str.match(reg3);
+		document.body.innerHTML += '<br>' + str.split(" ");
+		
+		// *
+		var reg4 = /lo*/g;
+		document.body.innerHTML += '<br>' + str.match(reg4);
+		//所有都会满足
+		var reg5 = /o*/g;
+		document.body.innerHTML += '<br>' + str.match(reg5);
+		
+		//？
+		var str6 = 'lo llo ll looo';
+		
+		var reg6 = /lo?/g;
+		document.body.innerHTML += '<br>' + str6.match(reg6);
+		
+		
+		/*
+		 {x}:个数是x个
+		 {x,y}:个数在x,y之间
+		 {x,}:x到无限大
+		 
+		 * */
+		
+		var str7 = 'lo loooolo ll looo';
+		var reg7 = /lo{3}/g;
+		document.body.innerHTML += '<br>' + str7.match(reg7);
+		
+		
+		var str8 = 'shkak3y83hiweo3h00931234ih=-ck==-D3J2GBFJWG388983i'
+		var reg8 = /\d{4}/g;
+		document.body.innerHTML += '<br>' + str8.match(reg8);
+		
+		//优先满足最大值
+		var str9 = 'aaa2h83383dh83h932928r93823jr2333jrio32jrr';
+		var reg9 = /\d{2,4}/g;
+		document.body.innerHTML += '<br>' + str9.match(reg9);
+		
+		var str10 = 'aaa2h83383dh83h932928r93823jr2333jrio32jrr';
+		var reg10 = /\d{3,}/g;
+		document.body.innerHTML += '<br>' + str10.match(reg10);
+		
+		
+		/*
+		 a$:代表以a结尾
+		 ^a:以a开头
+		 
+		 * */
+		
+		var str11 = '今天天气不错.';
+		//判断是否以不错结尾
+		var reg11 = /不错.$/;
+		var result = reg11.test(str11);
+		console.log(result);
+		//只有满足好日子结尾，才会被替换
+		var newStr = str11.replace(reg11,"糟糕");
+		console.log(newStr);
+		
+		var reg12 = /^今天/;
+		var newStr2 = str11.replace(reg12,'明天');
+		console.log(newStr2);
+		
+		var str13 = '12223324jdhfksdhfksd';
+		//以数字开头，数字一个或者多个
+		var reg13 = /^\d+/;
+		document.body.innerHTML += "<br>" + str13.replace(reg13,"哈哈");
+		
+		var str14 = '     a a a  aa   aaa   aa';
+		var reg14 = /^\s+/;
+//		document.body.innerHTML +='<br>' + str14.replace(reg14,"");
+		var newS = str14.replace(reg14,"");
+		console.log(newS);
+
+
+		/*
+		 [abcde]:匹配中括号之间的内容
+		 [123]
+		 //简写
+		 [1-6]：匹配中括号范围之间的内容
+		 * */
+		
+		var str = 'abcdef1234dgqwert';
+		var reg = /[a]/g;
+		document.body.innerHTML = "<br>" + str.match(reg);
+		
+		var newS = str.replace(reg,"哈");
+		document.body.innerHTML += "<br>" + newS;
+		
+		var str2 = "123456789321";
+		var reg2 = /[123]/g;
+		document.body.innerHTML += "<br>" + str2.match(reg2);
+		
+		var reg3 = /[1-4]/g;
+		document.body.innerHTML += "<br>" + str2.match(reg3);
+		
+		
+		/*
+		 [0-9]:所有数字
+		 [a-z]:所有小写字母
+		 [A-Z]:所有大写字母
+		 
+		 [A-z]:所有字母，不区分大小写
+		 * */
+		
+		var str4 = 'dhshdsihfsdios9933AJJJ--=ijj23';
+		var reg4 = /[A-z]/g;// \w:多了一个下划线
+		document.body.innerHTML += "<br>" + str4.match(reg4);
+		
+		/*
+		 \u unicode编码
+		 4F00-9FA5
+		 [\u4F00-\u9FA5]
+		 * */
+		var str5 = '石头 shitou 小鹏 xiaopeng 张三 zhangsan 李四 lisi';
+		//找到中文名
+		//var reg5 = /[\u4F00-\u9FA5]+/g;
+		//找到英文名
+		var reg5 = /[A-z]+/g;
+		document.body.innerHTML += "<br>" + str5.match(reg5);
+		
+		/*
+		 选择符和分组符
+		 |:选择符号
+		 ()：分组符
+		 * */
+		
+		var str6 = '123abc';
+		//匹配字符串中数字为1或者2或者3的所有数字
+		var reg6 = /1|2|3/g;// [1,2,3]
+		document.body.innerHTML += "<br>" + str6.match(reg6);
+		
+		//分组符
+		//分组符(ab)+：代表括号内ab组合一个或多个，去掉括号代表a后面b一个或多个
+		var str7 = '123ababc123abc';
+		var reg7 = /(ab)+/g;
+		document.body.innerHTML += "<br>" +str7.match(reg7);
+		document.body.innerHTML += "<br>" +"✨🐢🚀✨";
+		 console.log("✨🐢🚀✨"); 
+		 console.log(typeof "✨🐢🚀✨"); 
+		 
+		 
+		/*
+		 子项：
+		 分组中，每一个分组作为一个子项
+		 子项顺序：（）
+		 子项引用  \n 代表第n个子项
+		 * */
+		var str8 = '123ddhfieh333344443i';
+		var reg8 = /(\d)\1/g; 
+		//  /(\d)\1/:意思： \d找到一个数字，\1代表第一个子项找到的内容
+		//var reg8 = /(\d)\d/g; // /\d\d/g
+		document.body.innerHTML += "<br>" +str8.match(reg8);
+		//["3dd":查询到的结果, "3"：第一个子项内容, "d"：第二个子项内容] 
+		var reg9 = /(\d)([a-z])\2/;//["3dd", "3", "d"] 
+		var reg9 = /(\d)([a-z])\2/g;//["3dd"] 
+		document.body.innerHTML += "<br>" +str8.match(reg9);
+		console.log(str8.match(reg9));
+		
+		/*
+		 如果全局匹配：数组内容是查找到的结果集合
+		 如果不是全局匹配：找到字符串中第一次满足的结果，是数组中第一个值，从第二个值开始，每一个值代表了对应子项的内容
+		 * */
+
+
+		 //正则例子
+		 //判断字符串是否http://开头
+		 /*
+		 \转义
+		 \*
+		 \$
+		 \^
+		 \(
+		 \)
+		 \[
+		 \]
+		 \{
+		 \}
+		 \.
+		 \+
+		 \?
+		 \/
+		 \-
+		 
+		 * */
+
+		 var str1 ="http://www.baidu.com";
+		 //s? s是一个或者0个
+		 var reg1 = /^https?:\/\//;
+		 var result = reg1.test(str1);
+		 if(result){
+			 console("是一个链接");
+		 }else{
+			 console("不是一个链接");
+		 }
+
+		 //邮编030000
+		 //6位数 第一位能为0
+
+		 //压缩包命名name.zip name.rar
+		 var str2 = "123_.rar";
+		 var reg2 = /^\w+\.(zip|rar)$/;
+		 if(reg2.test(str2)){
+			 console("");
+		 }else{
+			 console("");
+		 }
+
+		 //去除收尾空格
+		 var str3 = "abc";
+		 //必须全局匹配 第一次匹配开头 第二次匹配结尾
+		 var reg3 = /^(\s+)|(\s+)$/g;
+		 var newS = str3.replace(reg3,"");
+
+		 //手机号
+		 //11位 开头是1 13 14 15 17 18
+		 var str4 ="18435185887";
+		 var reg4 = /^1[34578](\d{9})$/;
+		 if(reg4.test(str4)){
+			 console("正确手机号");
+		 }
+
+		 //qq号
+		 //4-11开头不能为0
+		 var str5 ="447415480";
+		 var reg5 = /^[1-9](\d{3,10})$/;
+		 if(reg5.test(str5)){
+			 console();
+		 }
