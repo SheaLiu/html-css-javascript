@@ -1,0 +1,281 @@
+一、属性选择器
+语法 E[attribute]
+找到具有attribute属性的元素
+属性可以自定义
+
+		a[href]{
+			color: red;
+		}
+		a[custom]{
+			color:yellow;
+		}
+    
+  
+		E[attribute]
+	找到属性值为attribute元素
+		
+		a[href=https]{
+			color:pink;
+		}
+    
+    
+	   E[att~=value]
+			适用于多个属性值，只要包含其中一个
+		
+		p[col~=cl1]{
+			color:red;
+		}
+	
+  
+		E[attr|=value]
+		选择有指定开头的元素	
+		value:必须是个完整的单词;
+		
+		p[lang|=zh]{
+			color: red;
+		}
+		
+    
+    E[att^=value]
+		选择属性值是指定开头的元素
+		 
+		p[class^=aaa]{
+			color:red;
+		}
+		
+    
+    E[attr$=value]
+			匹配属性值以指定字符结尾的所有元素
+	
+		p[class$=cd]{
+			color:red;
+		}
+		
+    
+    E[attr*=value]
+		匹配属性值包含指定字符的所有元素
+	
+    p[class*=bb]{color:blue;}
+    
+    
+    
+   二、伪类选择器和类选择器的区别
+   1.类选择器：使用之前，要设置元素的class(属性)
+    
+        
+   2.伪类选择器
+			E:link{};
+			作用：匹配所有未被点击的链接元素
+		
+		  a:link{ color:red; }
+		
+    
+      E:visited{}
+			匹配点了的超链接，已经被点击过
+		
+		  a:visited{ color:gray; }
+		  a:hover{}
+			作用：鼠标放到元素上
+		
+		  a:hover{ color:yellow; }
+		  a:active{};
+			鼠标按下时候的状态
+		  a:active{ color:blue; }
+		
+      顺序：link-visited-hover-active
+			1.link和visited必须在hover前
+			2.active必须放在hover后面
+       
+		  
+      匹配所有<p>下的第一个<i>元素
+	
+		  p>i:first-child{ color:red; }
+      p>i:last-child{ color:blue; }
+        
+        
+		  匹配所有作为第一个子元素<h3>元素中的所有<i>元素
+       h3:first-child i{ color:red; }
+        
+
+      ::first-line:
+			向文本的首行添加特殊样式
+		  p2::first-line{ background-color: red; }
+      
+      
+		  /*混合添加样式*/
+		  #p2::first-letter{ 
+			font-size: 20px;
+			color: red;
+			background-color: blue;
+			border:1px solid red; 
+		  }
+		
+		:before:在元素内容前面添加新的内容;
+		 #p3:before{ 
+			/*content: "新的内容";*/
+			content: url(img/1.jpg);
+			/*width: 50px;
+			height: 50px;
+			display: block;*/
+			}
+    
+三、同级div 上下margin会有重合现象
+    div1margin的下和div2的上margin重合
+    重合后的值是设置的最大值
+
+    div{ width:100px; height:100px; background: red; }
+    .div1{ margin-bottom: 10px; }
+    .div2{ margin-top: 20px; }
+    
+    
+四、.inner{ 
+	width: 100px; 
+	height: 100px; 
+	background: blue; 
+	margin-left: 20px; 
+	/*子元素的margin-top会传给父元素*/
+	/*解决办法：
+	1.用父元素的margin-top代替
+	2.给父元素添加overflow: hidden;
+	3.给父元素添加border(除了none以外)
+	*/
+	margin-top: 20px;
+        }
+	
+	
+五、相对定位&绝对定位
+
+1.相对定位：
+relative 
+相对于自身位置偏移
+a.不影响元素本身特性
+b.不会使元素脱离文档流（元素后移后位置会被保留）
+c.定位后，如果没有位置偏移，没有任何影响
+d.元素相对自身位置定位
+e.提升层级
+
+相对定位问题：
+left和right同时出现，right失效
+top和bottom同时出现，bottom失效
+
+
+2.绝对定位：
+absolute 
+a.使元素脱离了文档流
+b.改变元素性质，块元素内容撑开宽高，内联元素支持宽高设置
+c.提升层级
+d.相对于最近具有除了static定位外的定位元素发生偏移（如果没有定位属性的父级，默认相对于文档（document））
+
+
+窗口定位：和绝对定位性质基本一致，区别他是始终相对于窗口定位
+fixed
+
+常用：子元素绝对定位，父元素相对定位
+
+    
+六、/*vertical-align:*/
+    只有元素属于inline或是inline-block ，vertical-align属性才会起作用。 
+    例如图片，按钮，单复选框，单行/多行文本框等HTML控件，只有这些元素默认情况下会对vertical-align属性起作用。
+    设置vertical-align的值，不使用baseline，使用bottom/middle/top都是可以。
+
+七、clear:
+    left:清除元素前所有左浮动元素对自己的影响;
+    right：清除元素前面所有右浮动元素对自己的影响
+    both:清除元素前面所有左或右浮动元素对自己的影响;
+        
+         
+
+ 八、第一：父元素不浮动，子元素也不浮动，子元素内容可以撑起父元素高度
+     第二：父元素不浮动，子元素浮动，不可以撑起父元素高度
+     第三：父元素浮动，子元素不浮动，可以撑起父元素高度
+     第四：父元素浮动，子元素也浮动，也可以撑起父元素高度
+      
+      
+ 九、怪异盒模型： content + margin （盒子大小 == margin40 + 100）
+ div{
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    padding: 20px;
+    margin: 20px;
+    border: 10px solid blue;
+    /*默认标准盒模型*/
+    box-sizing: content-box;
+    /*怪异模型*/
+    box-sizing: border-box;
+}
+
+.div1{
+	height: 200px;
+	width: 300px;
+	padding: 20px;
+	border: 20px dashed rgba(0,0,0,.4);
+	background: url(img/1.jpg) no-repeat;
+	/* 背景裁切
+	 * border-box: 去除边框以外的背景
+	 * padding-box: 去除padding以外的背景
+	 * content-box: 裁切content以外的背景
+	 */
+	background-clip: border-box;
+	background-clip: padding-box;
+	background-clip: content-box;
+}
+
+.div{
+	width: 400px;
+	height: 300px;
+	padding:20px;
+	border: 20px dashed rgba(0,0,0,.5);
+	background: url(img/1.jpg) no-repeat;
+	
+	/* background-origin:
+	 * 规定背景相对什么位置显示
+	 * border-box: 相对于边框
+	 * padding-box: 相对于padding
+	 * content-box: 相对于content
+	 */
+	background-origin: border-box;
+	background-origin: padding-box;
+	background-origin: content-box;
+	
+}
+
+
+十、 * orientation: 屏幕方向
+   * landscape: 风景模式，横屏
+   @media only screen and ( orientation:landscape ) {
+	body{
+	background: yellow;
+	}
+	}
+   竖屏portrait
+   @media only screen and ( orientation:portrait ) {
+	body{
+	background: black;
+	}
+        }
+	
+十一、*目标伪类选择器，p标签被跳转后起作用*/
+#top:target{
+	background: red;
+}
+
+/*数值在范围内*/
+input:in-range{
+	background-color: red;
+}
+/*数值超出范围*/
+input:out-of-range{
+	background-color: blue;
+}
+/*选择必须填写值，否则不能提交*/
+input:required{
+	background: red;
+}
+/*两个:: 双击选中状态*/
+div::selection{
+	background-color: red;
+	/*font-size: 30px;*/
+	color: blue;
+	/*height: 80px;*/
+}
