@@ -1,0 +1,155 @@
+一、杂乱标签整理
+
+1.上标&下标的表示:
+
+上标：sup 
+下标：sub
+x<sup>2</sup> + y<sup>2</sup> - 1
+
+
+2.回到某个标签位置或回到顶部
+
+<a href="#">返回顶部</a>
+<a href="#htmltext">超文本标记语言</a>
+
+3.单词间换行，拆分换行
+<p class="wbr_c">
+   I am a loag words hahhahahhahahhhaaahahah.
+</p>
+<p class="wbr_c">
+   I am a loag words hahhahahhahahhha<wbr>aahahah</wbr>.
+</p>
+            
+4.注释 rt: 注释标题
+<ruby>
+    你好<rt>ni hao</rt>
+    阿西吧<rt>叹气</rt>
+</ruby>
+       
+       
+5.可选列表
+input list属性值 == datalist 的id值
+<form action="#" method="post" id="">
+  <input type="text" name="key" id="key" value="" list="gender_list">
+    <datalist="gender_list">
+      <option value="0">男</option>
+      <option value="1">女</option>
+    </datalist>
+    <select name="">
+    <option -value="">男</option>
+    <option -value="">女</option>
+    </select>
+    <input type="submit" name="" id="" value="提交" />
+</form>
+
+6.details: 折叠信息
+	summary: 标题，内容可见
+	open属性: 显示隐藏内容
+  
+	<details open="">
+     <summary>电脑配置</summary>
+     <p>内存：16G</p>
+     <p>双卡双待</p>
+  </details>
+
+7.figure:注释，标记，一般用于图片
+	figcaption：元素标题，显示位置和放置位置有关
+	<figure>
+      <figcaption>这是一个图片</figcaption>
+      <img src="img/1.jpg" alt="" />
+  </figure>
+  
+  
+  
+二、块元素&行元素
+1.块元素：p pre ul ol li dl h1-h6等
+		{
+			特点：默认都占一行
+			支持设置宽高
+			高度自适应（自适应内容）
+			支持所有css样式
+		}
+    
+2.内嵌元素（行元素）：span input a image
+		{
+			特点：可以同行显示
+			内容撑开宽高
+			不支持宽高设置
+			有些css样式不支持（margin)
+    } 
+    可以用display:block;
+3.关于嵌套
+		1.块元素可以嵌套大部分块元素，可以嵌套行内元素
+		特殊块元素P h1-h6 dt dl dd:不能嵌套块元素
+    2.（内嵌元素）行元素可以嵌套行元素内嵌元素，但是不可以嵌套块元素
+    
+三、电池条&进度条
+1.meter:电池条，度量
+	value:当前的值（默认范围是0-1），小于等于最小值不显示
+	min: 最小值
+	max：最大值
+	high: 最高预警值，value大于high后颜色预警
+	low: 最低预警值，value小于low后颜色预警
+	<meter value="15" min="10" max="100" high="70" low="20">浏览器不支持</meter>
+
+2.progress:进度条
+	value：当前值（默认0-1）
+	max: 最大值
+	没有最小值属性，最小默认是0
+  <progress value="50" max="100" min="50"></progress>
+  
+四、框架
+
+		<div class="header"></div>
+		<div class="nav"></div>
+		<div class="section"></div>
+		<div class="footer"></div>
+		
+		<!--头部标签-->
+		<header></header>
+		<!--标签导航-->
+		<nav></nav>
+		<!--管理h1-h6-->
+		<hgroup>
+			<h3>h3333</h3>
+			<h4>h4444</h4>
+		</hgroup>
+		<!--文章侧边栏-->
+		<aside></aside>
+		<!--文章内容，一个评论区-->
+		<artical></artical>
+		<!--文章分区-->
+		<section></section>
+		<!--尾部-->
+		<footer></footer>
+      
+五、viewport分辨率显示
+
+		设置宽度一定，控件（标签）保持宽度不变，
+		不会随设备分辨率改变而改变
+		
+		<meta name="viewport" 
+				content="width=device-width, 
+				initial-scale=1.0, 
+				maximum-scale=1.0, 
+				user-scalable=0">
+        
+			viewport:手机浏览器页面窗口，他是一个虚拟窗口
+      
+			width:device-width,设置viewport宽度，
+			不同分辨率的手机宽度不同，
+			保证在任何机型上看到的尺寸都是我们设置的尺寸
+			initial-scale:初始缩放比例
+			maximum-scale：允许缩放的最大比例
+			user-scalable：是否允许用户缩放1（yes）0(no)
+			设置0（no）：maximum-scale无效
+
+		<meta name="viewport" 
+				content="width=320, 
+				initial-scale=1.0, 
+				maximum-scale=2.0, 
+				user-scalable=1">
+		<meta name="viewport" 
+				content="width=320, 
+				initial-scale=0.5">
+ 
